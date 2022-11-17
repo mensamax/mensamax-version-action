@@ -211,7 +211,7 @@ function runAction(configurationProvider) {
         const authors = Object.values(allAuthors)
             .map((u) => new UserInfo_1.UserInfo(u.n, u.e, u.c))
             .sort((a, b) => b.commits - a.commits);
-        return new VersionResult_1.VersionResult(versionInfo.major, versionInfo.database, versionInfo.minor, versionInfo.patch, versionInfo.increment, versionInfo.type, versionFormatter.Format(versionInfo), tagFormmater.Format(versionInfo), versionInfo.changed, userFormatter.Format('author', authors), currentCommit, lastRelease.hash, `${lastRelease.major}.${lastRelease.minor}.${lastRelease.patch}`);
+        return new VersionResult_1.VersionResult(versionInfo.major, versionInfo.database, versionInfo.minor, versionInfo.patch, versionInfo.increment, versionInfo.type, versionFormatter.Format(versionInfo), tagFormmater.Format(versionInfo), versionInfo.changed, userFormatter.Format('author', authors), currentCommit, lastRelease.hash, `${lastRelease.major}.${lastRelease.database}.${lastRelease.minor}.${lastRelease.patch}`);
     });
 }
 exports.runAction = runAction;
@@ -884,6 +884,17 @@ class DefaultVersionClassifier {
             if (this.majorPattern(commit)) {
                 return {
                     type: VersionType_1.VersionType.Major,
+                    increment: commits.length - index,
+                    changed: commitsSet.changed,
+                };
+            }
+            index++;
+        }
+        index = 1;
+        for (let commit of commits) {
+            if (this.databasePattern(commit)) {
+                return {
+                    type: VersionType_1.VersionType.Database,
                     increment: commits.length - index,
                     changed: commitsSet.changed,
                 };

@@ -640,3 +640,14 @@ test('Database update bumps database version and resets increment', async () => 
 
   expect(result.formattedVersion).toBe('0.1.0.0+0')
 }, 15000)
+
+test('Database update bumps database version and resets increment', async () => {
+  const repo = createTestRepo() // 0.0.0.0+0
+
+  repo.makeCommit('Initial Commit') // 0.0.0.1+0
+  repo.exec('git tag v3.120.0.0') // 3.120.0.0
+  repo.makeCommit('Second Commit (DATABASE)') // 3.121.0.0+0
+  const result = await repo.runAction()
+
+  expect(result.formattedVersion).toBe('3.121.0.0+0')
+}, 15000)
