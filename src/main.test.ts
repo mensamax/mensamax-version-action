@@ -630,3 +630,13 @@ test('Can use branches instead of tags', async () => {
 
   expect(result.versionTag).toBe('release/1.0.0.1')
 }, 15000)
+
+test('Database update bumps database version and resets increment', async () => {
+  const repo = createTestRepo() // 0.0.0.0+0
+
+  repo.makeCommit('Initial Commit') // 0.0.0.1+0
+  repo.makeCommit('Second Commit (DATABASE)') // 0.1.0.0+0
+  const result = await repo.runAction()
+
+  expect(result.formattedVersion).toBe('0.1.0.0+0')
+}, 15000)

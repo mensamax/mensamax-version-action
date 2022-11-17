@@ -98,6 +98,6 @@ export async function runAction(
     userFormatter.Format('author', authors),
     currentCommit,
     lastRelease.hash,
-    `${lastRelease.major}.${lastRelease.minor}.${lastRelease.patch}`
+    `${lastRelease.major}.${lastRelease.database}.${lastRelease.minor}.${lastRelease.patch}`
   )
 }

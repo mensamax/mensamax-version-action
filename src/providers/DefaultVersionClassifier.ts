@@ -124,6 +124,18 @@ export class DefaultVersionClassifier implements VersionClassifier {
 
     index = 1
     for (let commit of commits) {
+      if (this.databasePattern(commit)) {
+        return {
+          type: VersionType.Database,
+          increment: commits.length - index,
+          changed: commitsSet.changed,
+        }
+      }
+      index++
+    }
+
+    index = 1
+    for (let commit of commits) {
       if (this.minorPattern(commit)) {
         return {
           type: VersionType.Minor,

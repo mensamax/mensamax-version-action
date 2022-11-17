@@ -27,7 +27,7 @@ inputs:
   database_pattern:
     description: "A string which, if present in a git commit, indicates that a change represents a database change. Wrap with '/' to match using a regular expression."
     required: true
-    default: '(MAJOR)'
+    default: '(DATABASE)'
   database_regexp_flags:
     description: 'A string which indicates the flags used by the `database_pattern` regular expression. Supported flags: idgs'
     required: false
